@@ -176,7 +176,7 @@ class Player:
 #Main
 
 P1=Player()
-#Rozgrywka
+#Rozgrywka - WIP
 
 while P1.getHP("l")>0 or P1.getHP("d")>0 or P1.getHP("g")>0 or P1.getHP("s")>0 or P1.getHP("p")>0:
 	#Rysowanie planszy
