@@ -8,7 +8,8 @@ Grupa 22
 * Użytkownik wybiera czy chce pełnić role hosta lub klienta
 * Okno z dwoma planszami 10x10 pól (np. siatki przycisków) oraz
 przyciskiem rozpoczęcia gry i przyciskiem reset.
-* Na początku gracz rozmieszcza okręty (1x pięciomasztowiec, 1x czteromasztowiec, 2x trójmasztowiec, 1x dwumasztowiec).
+* Na początku gracz rozmieszcza okręty (1x pięciomasztowiec (Lotniskowiec), 
+1x czteromasztowiec (Niszczyciel), 2x trójmasztowiec(Kanonierka & łódź podwodna, 1x dwumasztowiec(Łódź patrolowa)).
 * Po rozmieszczeniu okrętów przez klienta i zaakceptowaniu seleckji host rozmieszcza swoje okrety.
 * Okręty nie mogą się dotykać ani bokami ani rogami.
 * Po rozmieszczeniu okrętów przez obu graczy jeden z nich wykonuje pierwszy ruch
@@ -35,3 +36,4 @@ nowej gry, ponowne poprawne rozmieszczenie okrętów, oddanie strzałów w te sa
 pola.
 10. Rozpoczęcie nowej gry po zgodzie obu graczy bez ponownego uruchomienia programu
 
+Link Github
