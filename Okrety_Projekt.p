@@ -121,13 +121,6 @@ def set_ship(map,s,name,dl):
 			print("Pole zajęte, podaj inne")
 	return dl
 
-def setup_map(map):
-	set_ship(map,"l","Lotniskowiec",5)
-	set_ship(map, "d", "Niszczyciel", 4)
-	set_ship(map,"s","Łódź podwodna",3)
-	set_ship(map, "g", "Kanonierka", 3)
-	set_ship(map, "p", "Łódka patrolowa", 2)
-	os.system("cls")
 
 def alloc_map(char):
 	map=[]
