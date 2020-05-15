@@ -9,7 +9,7 @@ Grupa 22
 * Okno z dwoma planszami 10x10 pól (np. siatki przycisków) oraz
 przyciskiem rozpoczęcia gry i przyciskiem reset.
 * Na początku gracz rozmieszcza okręty (1x pięciomasztowiec (Lotniskowiec), 
-1x czteromasztowiec (Niszczyciel), 2x trójmasztowiec(Kanonierka & łódź podwodna, 1x dwumasztowiec(Łódź patrolowa)).
+1x czteromasztowiec (Niszczyciel), 2x trójmasztowiec (Kanonierka & łódź podwodna), 1x dwumasztowiec (Łódź patrolowa)).
 * Po rozmieszczeniu okrętów przez hosta i zaakceptowaniu selekcji klient rozmieszcza swoje okrety.
 * Okręty nie mogą się dotykać ani bokami ani rogami.
 * Po rozmieszczeniu okrętów przez obu graczy jeden z nich wykonuje pierwszy ruch
