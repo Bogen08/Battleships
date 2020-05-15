@@ -24,21 +24,6 @@ def printmap(map):
 		print()
 	print()
 
-def setup_test(map):
-	# Rozstawienie okretow - WIP
-	map[2][1] = "l"
-	map[2][2] = "l"
-	map[2][3] = "l"
-	map[2][4] = "l"
-	map[2][5] = "l"
-
-	map[1][7] = "g"
-	map[2][7] = "g"
-	map[3][7] = "g"
-
-	map[7][3] = "p"
-	map[7][4] = "p"
-
 def set_ship(map,s,name,dl):
 	os.system("cls")
 	printmap(map)
@@ -171,80 +156,97 @@ class Player:
 		"""
 		if char=='l':
 			return self._lhp
+		if char=='d':
+			return self._dhp
+		if char=='s':
+			return self._shp
+		if char=='g':
+			return self._ghp
+		if char=='p':
+			return self._php
 
+	def hit(self,char):
+		"""
+		name=('%s%s'%(char,'hp'))
+		self._name=-1
+		"""
+		if char=='l':
+			self._lhp-=1
+		if char=='d':
+			self._dhp-=1
+		if char=='s':
+			self._shp-=1
+		if char=='g':
+			self._ghp-=1
+		if char=='p':
+			self._php-=1
 #Main
 
 P1=Player()
-printmap(P1.map)
-print(P1.getHP('l'))
-
 #Rozgrywka
-"""
-while lhp>0 or dhp>0 or ghp>0 or shp>0 or php>0:
+
+while P1.getHP("l")>0 or P1.getHP("d")>0 or P1.getHP("g")>0 or P1.getHP("s")>0 or P1.getHP("p")>0:
 	#Rysowanie planszy
-	printmap(map)
-	printmap(mapp)
+	"""
+	print(P1.getHP('l'))
+	print(P1.getHP('d'))
+	print(P1.getHP('g'))
+	print(P1.getHP('s'))
+	print(P1.getHP('p'))
+	"""
+	printmap(P1.map)
+	printmap(P1.mapp)
 	while True:
 		k=int(ord(input("Podaj kolumne: "))-65)
 		if k>10:
 			k=k-32
 		w=int(input("Podaj wiersz: "))-1
-		if map[w][k] == "o" or map[w][k]=="t":
+		if P1.map[w][k] == "o" or P1.map[w][k]=="t":
 			print("Wspolrzedne juz ostrzelane, wpisz nowe")
 			os.system("pause")
 		else:
 			break
-	if map[w][k]=="l":
+	if P1.map[w][k]=="l":
 		print("trafienie")
-		if lhp==1:
+		P1.hit('l')
+		if P1.getHP("l")==0:
 			print("Zatopienie")
-			lhp=0
-		else:
-			lhp=lhp-1
-		map[w][k]="t"
-		mapp[w][k] = "x"
-	elif map[w][k]=="d":
+		P1.map[w][k]="t"
+		P1.mapp[w][k] = "x"
+	elif P1.map[w][k]=="d":
 		print("trafienie")
-		if dhp==1:
+		P1.hit('d')
+		if P1.getHP("d")==0:
 			print("Zatopienie")
-			dhp=0
-		else:
-			dhp=dhp-1
-		map[w][k]="t"
-		mapp[w][k] = "x"
-	elif map[w][k]=="g":
+		P1.map[w][k]="t"
+		P1.mapp[w][k] = "x"
+	elif P1.map[w][k]=="g":
 		print("trafienie")
-		if ghp==1:
+		P1.hit('g')
+		if P1.getHP("g")==0:
 			print("Zatopienie")
-			ghp=0
-		else:
-			ghp=ghp-1
-		map[w][k]="t"
-		mapp[w][k] = "x"
-	elif map[w][k]=="s":
+		P1.map[w][k]="t"
+		P1.mapp[w][k] = "x"
+	elif P1.map[w][k]=="s":
 		print("trafienie")
-		if shp==1:
+		P1.hit('s')
+		if P1.getHP("s")==0:
 			print("Zatopienie")
-			shp=0
-		else:
-			shp=shp-1
-		map[w][k]="t"
-		mapp[w][k] = "x"
-	elif map[w][k]=="p":
+		P1.map[w][k]="t"
+		P1.mapp[w][k] = "x"
+	elif P1.map[w][k]=="p":
 		print("trafienie")
-		if php==1:
+		P1.hit('p')
+		if P1.getHP("p")==0:
 			print("Zatopienie")
-			php=0
-		else:
-			php=php-1
-		map[w][k]="t"
-		mapp[w][k] = "x"
+		P1.map[w][k]="t"
+		P1.mapp[w][k] = "x"
 	else:
 		print("Pudlo")
-		map[w][k]="o"
-		mapp[w][k] = "o"
+		P1.map[w][k]="o"
+		P1.mapp[w][k] = "o"
 
 	os.system("pause")
 	os.system("cls")
 
-print("Wygrana")"""
+print("Wygrana")
