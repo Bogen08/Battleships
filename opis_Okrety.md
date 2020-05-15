@@ -35,5 +35,3 @@ reset plansz.
 nowej gry, ponowne poprawne rozmieszczenie okrętów, oddanie strzałów w te same
 pola.
 10. Rozpoczęcie nowej gry po zgodzie obu graczy bez ponownego uruchomienia programu
-
-Link Github
