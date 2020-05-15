@@ -1,37 +1,37 @@
-**Okrêty**
+**OkrÄ™ty**
 Bogdan Ignacyk
 130519
 Grupa 22
 
 # Opis zadania
-*Gra prowadzona miêdzy dwójk¹ graczy przez sieæ
-*U¿ytkownik wybiera czy chce pe³niæ role hosta lub klienta
-* Okno z dwoma planszami 10x10 pól (np. siatki przycisków) oraz
-przyciskiem rozpoczêcia gry i przyciskiem reset.
-* Na pocz¹tku gracz rozmieszcza okrêty (1x piêciomasztowiec, 1x czteromasztowiec, 2x trójmasztowiec, 1x dwumasztowiec).
-* Po rozmieszczeniu okrêtów przez klienta i zaakceptowaniu seleckji host rozmieszcza swoje okrety.
-* Okrêty nie mog¹ siê dotykaæ ani bokami ani rogami.
-* Po rozmieszczeniu okrêtów przez obu graczy jeden z nich wykonuje pierwszy ruch
+* Gra prowadzona miÄ™dzy dwÃ³jkÄ… graczy przez sieÄ‡
+* UÅ¼ytkownik wybiera czy chce peÅ‚niÄ‡ role hosta lub klienta
+* Okno z dwoma planszami 10x10 pÃ³l (np. siatki przyciskÃ³w) oraz
+przyciskiem rozpoczÄ™cia gry i przyciskiem reset.
+* Na poczÄ…tku gracz rozmieszcza okrÄ™ty (1x piÄ™ciomasztowiec, 1x czteromasztowiec, 2x trÃ³jmasztowiec, 1x dwumasztowiec).
+* Po rozmieszczeniu okrÄ™tÃ³w przez klienta i zaakceptowaniu seleckji host rozmieszcza swoje okrety.
+* OkrÄ™ty nie mogÄ… siÄ™ dotykaÄ‡ ani bokami ani rogami.
+* Po rozmieszczeniu okrÄ™tÃ³w przez obu graczy jeden z nich wykonuje pierwszy ruch
 (decydowane losowo).
-* Wybór celu przez gracza nastêpuje przez klikniêcie pola, w razie trafienia przycisk
-staje siê czerwony, w przeciwnym razie niebieski (nie mo¿na strzeliæ dwa razy w to
+* WybÃ³r celu przez gracza nastÄ™puje przez klikniÄ™cie pola, w razie trafienia przycisk
+staje siÄ™ czerwony, w przeciwnym razie niebieski (nie moÅ¼na strzeliÄ‡ dwa razy w to
 samo pole).
-* Gra koñczy siê gdy któryœ gracz straci ostatni okrêt, wyœwietlane jest okno
-z informacj¹ o zwyciêzcy (np. “Wygrana!”, “Przegrana!”).
+* Gra koÅ„czy siÄ™ gdy ktÃ³ryÅ› gracz straci ostatni okrÄ™t, wyÅ›wietlane jest okno
+z informacjÄ… o zwyciÄ™zcy (np. â€œWygrana!â€, â€œPrzegrana!â€).
 
 Testy
-1. Próba niepoprawnego ustawienia okrêtu (stykanie siê bokami lub
-rogami). Oczekiwana informacja o b³êdzie
-2. Poprawne rozmieszczenie wszystkich okrêtów przez gracza i wciœniêcie
-przycisku rozpoczêcia gry.
+1. PrÃ³ba niepoprawnego ustawienia okrÄ™tu (stykanie siÄ™ bokami lub
+rogami). Oczekiwana informacja o bÅ‚Ä™dzie
+2. Poprawne rozmieszczenie wszystkich okrÄ™tÃ³w przez gracza i wciÅ›niÄ™cie
+przycisku rozpoczÄ™cia gry.
 3. Strzelenie w puste pole.
-4. Trafienie w okrêt przeciwnika.
-6. Próba ponownego strzelenia w puste pole - oczekiwane niepowodzenie.
-7. Próba ponownego strzelenia w okrêt przeciwnika - oczekiwane niepowodzenie.
-8. Rozmieszczenie czêœci okrêtów, wciœniêcie przycisku reset - oczekiwany
+4. Trafienie w okrÄ™t przeciwnika.
+6. PrÃ³ba ponownego strzelenia w puste pole - oczekiwane niepowodzenie.
+7. PrÃ³ba ponownego strzelenia w okrÄ™t przeciwnika - oczekiwane niepowodzenie.
+8. Rozmieszczenie czÄ™Å›ci okrÄ™tÃ³w, wciÅ›niÄ™cie przycisku reset - oczekiwany
 reset plansz.
-9. Poprawne rozmieszczenie wszystkich okrêtów, oddanie kilku strza³ów, rozpoczêcie
-nowej gry, ponowne poprawne rozmieszczenie okrêtów, oddanie strza³ów w te same
+9. Poprawne rozmieszczenie wszystkich okrÄ™tÃ³w, oddanie kilku strzaÅ‚Ã³w, rozpoczÄ™cie
+nowej gry, ponowne poprawne rozmieszczenie okrÄ™tÃ³w, oddanie strzaÅ‚Ã³w w te same
 pola.
-10. Rozpoczêcie nowej gry po zgodzie obu graczy bez ponownego uruchomienia programu
+10. RozpoczÄ™cie nowej gry po zgodzie obu graczy bez ponownego uruchomienia programu
 
