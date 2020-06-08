@@ -3,7 +3,7 @@ import socket
 import os
 
 def setserver():
-	""" Tworzy socet do obsługi serwera. """
+	""" Tworzy socket do obsługi serwera. """
 	HOST = None               # Symbolic name meaning all available interfaces
 	PORT = 50007              # Arbitrary non-privileged port
 	s = None
@@ -30,7 +30,7 @@ def setserver():
 	return s
 
 def connect():
-	""" Tworzy socet do obsługi klienta. """
+	""" Tworzy socket do obsługi klienta. """
 	HOST = 'localhost'    # The remote host
 	PORT = 50007              # The same port as used by the server
 	s = None
