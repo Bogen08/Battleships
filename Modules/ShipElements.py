@@ -1,6 +1,7 @@
 import os
 
 def printmap(map):
+	""" Funkcja wypisująca jedno okno mapy. """
 	print()
 	ch = chr(92)
 	print(ch, end="  ")
@@ -20,6 +21,7 @@ def printmap(map):
 	print()
 
 def printmaps(map1,map2):
+	""" Funkcja wypisująca dwa połączone ze sobą okna map. """
 	ch = chr(92)
 	print(ch, end="  ")
 	for i in range(10):
@@ -50,6 +52,7 @@ def printmaps(map1,map2):
 	print()
 
 def set_ship(map,mapu,s,name,dl):
+	""" Funkcja ustawiająca dany statek dla danego gracza. """
 	os.system("cls")
 	printmap(map)
 	print(name)
@@ -150,15 +153,8 @@ def set_ship(map,mapu,s,name,dl):
 			print("Pole zajęte, podaj inne")
 	return dl
 
-def setup_map(map):
-	set_ship(map,"l","Lotniskowiec",5)
-	set_ship(map, "d", "Niszczyciel", 4)
-	set_ship(map,"s","Łódź podwodna",3)
-	set_ship(map, "g", "Kanonierka", 3)
-	set_ship(map, "p", "Łódka patrolowa", 2)
-	os.system("cls")
-
 def alloc_map(char):
+	""" Funkcja alokująca pamięć i domyślne wartości dla tablic map. """
 	map=[]
 	for i in range(10):
 		maps = []
@@ -168,6 +164,8 @@ def alloc_map(char):
 	return map
 
 def fire(P1,P2):
+	""" Funkcja obsługująca wybranie pola do ostrzału przez gracza oraz jego efekt.
+	 Zwraca ostrzelane koordynaty oraz efekt trafienia"""
 	print()
 	print("Ostrzal")
 	print()
@@ -205,6 +203,7 @@ def fire(P1,P2):
 	return (str(w)+str(k)+str(ef))
 
 def getHit(P1,msg):
+	""" Funkcja obsługująca wartość zwrotną funkcji fire dla strony ostrzeliwanej"""
 	print()
 	w=int(msg[0])
 	k = int(msg[1])
@@ -223,6 +222,7 @@ def getHit(P1,msg):
 
 
 class Player:
+	""" Klasa przechowująca mapy oraz stany okrętów. """
 	def __init__(self):
 		self.map = alloc_map("x")
 		self.mapp = alloc_map(" ")
