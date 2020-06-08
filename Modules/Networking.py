@@ -3,6 +3,7 @@ import socket
 import os
 
 def setserver():
+	""" Tworzy socet do obsługi serwera. """
 	HOST = None               # Symbolic name meaning all available interfaces
 	PORT = 50007              # Arbitrary non-privileged port
 	s = None
@@ -29,6 +30,7 @@ def setserver():
 	return s
 
 def connect():
+	""" Tworzy socet do obsługi klienta. """
 	HOST = 'localhost'    # The remote host
 	PORT = 50007              # The same port as used by the server
 	s = None
@@ -52,6 +54,7 @@ def connect():
 	return s
 
 def server_confirm(s):
+	""" Funkcja oczekująca na uzyskanie połączenia z klientem. """
 	print("Oczekiwanie na połączenie")
 	conn, addr = s.accept()
 	os.system("cls")
@@ -67,6 +70,7 @@ def server_confirm(s):
 				conn.send(reply.encode("utf-8"))
 
 def server_hold(s,msg):
+	""" Funkcja stopująca program do momentu uzyskania komunikatu gotowości od klienta. """
 	print(msg)
 	conn, addr = s.accept()
 	with conn:
@@ -78,6 +82,7 @@ def server_hold(s,msg):
 			return c
 
 def server_release(conn,reply):
+	""" Funkcja wysyłająca sygnał gotowości do klienta w celu zwolnienia blokady. """
 	with conn:
 		while True:
 			data = conn.recv(1024)
@@ -87,6 +92,7 @@ def server_release(conn,reply):
 				break
 
 def client_confirm(s):
+	""" Funkcja oczekująca na uzyskanie połączenia z serwerem. """
 	with s:
 		os.system("cls")
 		c="Ready"
@@ -97,11 +103,13 @@ def client_confirm(s):
 		print("Sukces w połączeniu z serwerem")
 
 def client_release(s,c):
+	""" Funkcja wysyłająca sygnał gotowości do serwera w celu zwolnienia blokady. """
 	with s:
 		os.system("cls")
 		s.sendall(str(c).encode("utf-8"))
 
 def client_hold(s,msg):
+	""" Funkcja stopująca program do momentu uzyskania komunikatu gotowości od serwera. """
 	with s:
 		c="Ready"
 		s.sendall(str(c).encode("utf-8"))
