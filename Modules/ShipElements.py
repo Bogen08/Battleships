@@ -57,11 +57,24 @@ def set_ship(map,mapu,s,name,dl):
 	printmap(map)
 	print(name)
 	while True:
-		k = int(ord(input("Podaj kolumne: ")) - 65)
-		if k > 10:
-			k = k - 32
-		#print(k)
-		w = int(input("Podaj wiersz: ")) - 1
+		while True:
+			try:
+				k = int(ord(input("Podaj kolumne: ")) - 65)
+			except TypeError:
+				print("Podana wartość jest nie poprawna.")
+				continue
+			try:
+				w = int(input("Podaj wiersz: ")) - 1
+			except ValueError:
+				print("Podana wartość jest nie poprawna.")
+				continue
+			if k > 10:
+				k = k - 32
+			if k < 0 or k > 9 or w < 0 or w > 9:
+				print("Podaj poprawne wartości")
+				continue
+			else:
+				break
 		if map[w][k] == "x":
 			l = 1
 			r = 1
@@ -71,7 +84,7 @@ def set_ship(map,mapu,s,name,dl):
 				l = 0
 			if k < 11-dl:
 				r = 0
-			if w > dl+2:
+			if w > dl-2:
 				u = 0
 			if w < 11-dl:
 				d = 0
@@ -171,10 +184,24 @@ def fire(P1,P2):
 	print()
 	printmaps(P1.mapu, P1.mapp)
 	while True:
-		k = int(ord(input("Podaj kolumne: ")) - 65)
-		if k > 10:
-			k = k - 32
-		w = int(input("Podaj wiersz: ")) - 1
+		while True:
+			try:
+				k = int(ord(input("Podaj kolumne: ")) - 65)
+			except TypeError:
+				print("Podana wartość jest nie poprawna.")
+				continue
+			try:
+				w = int(input("Podaj wiersz: ")) - 1
+			except ValueError:
+				print("Podana wartość jest nie poprawna.")
+				continue
+			if k > 10:
+				k = k - 32
+			if k < 0 or k > 9 or w < 0 or w > 9:
+				print("Podaj poprawne wartości")
+				continue
+			else:
+				break
 		if P2.map[w][k] == "o" or P2.map[w][k] == "t":
 			print("Wspolrzedne juz ostrzelane, wpisz nowe")
 			os.system("pause")
