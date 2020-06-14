@@ -51,114 +51,188 @@ def printmaps(map1,map2):
 		print()
 	print()
 
-def set_ship(map,mapu,s,name,dl):
+def set_ship(map_values,map_user,s,name,dl):
 	""" Funkcja ustawiająca dany statek dla danego gracza. """
 	os.system("cls")
-	printmap(map)
+	printmap(map_user)
 	print(name)
 	while True:
 		while True:
+			incord = input("Podaj wspolrzedne: ")
+			if len(incord) != 2 and len(incord) != 3:
+				print("Podaj poprawna wartośc")
+				continue
 			try:
-				k = int(ord(input("Podaj kolumne: ")) - 65)
+				column = int(ord(incord[0])) - 65
 			except TypeError:
 				print("Podana wartość jest nie poprawna.")
 				continue
 			try:
-				w = int(input("Podaj wiersz: ")) - 1
+				row = int(incord[1]) - 1
+				if len(incord) == 3:
+					if row == 0 and incord[2] == "0":
+						row = 9
+					else:
+						row = 10
 			except ValueError:
 				print("Podana wartość jest nie poprawna.")
 				continue
-			if k > 10:
-				k = k - 32
-			if k < 0 or k > 9 or w < 0 or w > 9:
+			if column > 10:
+				column = column - 32
+			if column < 0 or column > 9 or row < 0 or row > 9:
 				print("Podaj poprawne wartości")
 				continue
 			else:
 				break
-		if map[w][k] == "x":
-			l = 1
-			r = 1
-			u = 1
-			d = 1
-			if k > dl-2:
-				l = 0
-			if k < 11-dl:
-				r = 0
-			if w > dl-2:
-				u = 0
-			if w < 11-dl:
-				d = 0
+		if map_values[row][column] == "x":
+			left = 1
+			right = 1
+			up = 1
+			down = 1
+			if column > dl-2:
+				left = 0
+			if column < 11-dl:
+				right = 0
+			if row > dl-2:
+				up = 0
+			if row < 11-dl:
+				down = 0
 
 			for i in range(1, dl):
-				if l != 0 or map[w][k - i] != "x":
-					l = 1
-				if r != 0 or map[w][k + i] != "x":
-					r = 1
-				if u != 0 or map[w - i][k] != "x":
-					u = 1
-				if d != 0 or map[w + i][k] != "x":
-					d = 1
-			if l + r + u + d == 4:
+				if left != 0 or map_values[row][column - i] != "x":
+					left = 1
+				if right != 0 or map_values[row][column + i] != "x":
+					right = 1
+				if up != 0 or map_values[row - i][column] != "x":
+					up = 1
+				if down != 0 or map_values[row + i][column] != "x":
+					down = 1
+			if left + right + up + down == 4:
 				print("Brak możliwych ustawień, podaj inne pole")
 				continue
 			else:
 				while True:
 					print("Wybierz dostępny kierunek ustawienia")
-					if l == 0:
-						print("1:Lewo - do ", chr(66 + k -dl), w+1)
-					if r == 0:
-						print("2:Prawo - do ", chr(64 + k +dl), w+1)
-					if u == 0:
-						print("3:Góra - do ", chr(65 + k), w - dl +2)
-					if d == 0:
-						print("4:Dół - do ", chr(65 + k), w + dl)
+					if left == 0:
+						print("1:Lewo - do ", chr(66 + column -dl), row+1)
+					if right == 0:
+						print("2:Prawo - do ", chr(64 + column +dl), row+1)
+					if up == 0:
+						print("3:Góra - do ", chr(65 + column), row - dl +2)
+					if down == 0:
+						print("4:Dół - do ", chr(65 + column), row + dl)
 					print("5: Wróć do wyboru pola startowego")
-					wy = int(input())
+					choice = int(input())
 
-					if wy == 5:
+					if choice == 5:
 						break
-					if wy==1:
-						if l==0:
+					if choice==1:
+						if left==0:
+							if column<9 and row>0:
+								map_values[row-1][column+1]="-"
+							if column<9:
+								map_values[row][column+1]="-"
+							if column<9 and row<9:
+								map_values[row+1][column+1]="-"
 							for i in range(0,dl):
-								map[w][k-i]=s
-								mapu[w][k-i]=s
+								map_values[row][column-i]=s
+								map_user[row][column-i]=s
+								if row>0:
+									map_values[row - 1][column-i] = "-"
+								if row<9:
+									map_values[row +1 ][column-i] = "-"
+							if column-dl>=0 and row>0:
+								map_values[row-1][column-dl]="-"
+							if column-dl>=0:
+								map_values[row][column-dl]="-"
+							if column-dl>=0 and row<9:
+								map_values[row+1][column-dl]="-"
+
 							break
 						else:
 							print("Kierunek niedostepny, wybierz inny")
 							print()
 							continue
-					if wy==2:
-						if r==0:
+					if choice==2:
+						if right==0:
+							if column>0 and row>0:
+								map_values[row-1][column-1]="-"
+							if column>0:
+								map_values[row][column-1]="-"
+							if column>0 and row<9:
+								map_values[row+1][column-1]="-"
 							for i in range(0,dl):
-								map[w][k+i]=s
-								mapu[w][k + i] = s
+								map_values[row][column+i]=s
+								map_user[row][column + i] = s
+								if row > 0:
+									map_values[row - 1][column + i] = "-"
+								if row < 9:
+									map_values[row + 1][column + i] = "-"
+							if column + dl <= 9 and row > 0:
+								map_values[row - 1][column + dl] = "-"
+							if column + dl <= 9:
+								map_values[row][column + dl] = "-"
+							if column + dl <= 9 and row < 9:
+								map_values[row + 1][column + dl] = "-"
 							break
 						else:
 							print("Kierunek niedostepny, wybierz inny")
 							print()
 							continue
-					if wy==3:
-						if u==0:
+					if choice==3:
+						if up==0:
+							if column>0 and row<9:
+								map_values[row+1][column-1]="-"
+							if row<9:
+								map_values[row+1][column]="-"
+							if column<9 and row<9:
+								map_values[row+1][column+1]="-"
 							for i in range(0,dl):
-								map[w-i][k]=s
-								mapu[w - i][k] = s
+								map_values[row-i][column]=s
+								map_user[row - i][column] = s
+								if column > 0:
+									map_values[row-i][column -1] = "-"
+								if column < 9:
+									map_values[row-i][column + 1] = "-"
+							if column < 9 and row - dl >= 0:
+								map_values[row - dl][column + 1] = "-"
+							if row - dl >= 0:
+								map_values[row - dl][column] = "-"
+							if column > 0 and row - dl >= 0:
+								map_values[row - dl][column - 1] = "-"
 							break
 						else:
 							print("Kierunek niedostepny, wybierz inny")
 							print()
 							continue
-					if wy==4:
-						if d==0:
+					if choice==4:
+						if down==0:
+							if column>0 and row>0:
+								map_values[row-1][column-1]="-"
+							if row>0:
+								map_values[row-1][column]="-"
+							if column<9 and row>0:
+								map_values[row-1][column+1]="-"
 							for i in range(0,dl):
-								map[w+i][k]=s
-								mapu[w + i][k] = s
+								map_values[row+i][column]=s
+								map_user[row + i][column] = s
+								if column > 0:
+									map_values[row + i][column - 1] = "-"
+								if column < 9:
+									map_values[row + i][column + 1] = "-"
+							if column < 9 and row + dl <= 9:
+								map_values[row + dl][column + 1] = "-"
+							if row + dl <= 9:
+								map_values[row + dl][column] = "-"
+							if column > 0 and row + dl <= 9:
+								map_values[row + dl][column - 1] = "-"
 							break
 						else:
 							print("Kierunek niedostepny, wybierz inny")
 							print()
 							continue
 
-				if wy==5:
+				if choice==5:
 					continue
 				else:
 					break
@@ -182,68 +256,77 @@ def fire(P1,P2):
 	print()
 	print("Ostrzal")
 	print()
-	printmaps(P1.mapu, P1.mapp)
+	printmaps(P1.map_user, P1.map_targets)
 	while True:
 		while True:
+			incord = input("Podaj wspolrzedne: ")
+			if len(incord) != 2 or len(incord) != 3:
+				print("Podaj poprawna wartośc")
+				continue
 			try:
-				k = int(ord(input("Podaj kolumne: ")) - 65)
+				column = int(ord(incord[0])) - 65
 			except TypeError:
 				print("Podana wartość jest nie poprawna.")
 				continue
 			try:
-				w = int(input("Podaj wiersz: ")) - 1
+				row = int(incord[1]) - 1
+				if len(incord)==3:
+					if row==0 and incord[2] == "0":
+						row = 9
+					else:
+						row = 10
 			except ValueError:
 				print("Podana wartość jest nie poprawna.")
 				continue
-			if k > 10:
-				k = k - 32
-			if k < 0 or k > 9 or w < 0 or w > 9:
+			if column > 10:
+				column = column - 32
+			if column < 0 or column > 9 or row < 0 or row > 9:
 				print("Podaj poprawne wartości")
 				continue
 			else:
 				break
-		if P2.map[w][k] == "o" or P2.map[w][k] == "t":
+		if P2.map_values[row][column] == "o" or P2.map_values[row][column] == "t":
 			print("Wspolrzedne juz ostrzelane, wpisz nowe")
 			os.system("pause")
 		else:
 			break
 
-	if P2.map[w][k] == "x" or P2.map[w][k] == "-":
+	if P2.map_values[row][column] == "x" or P2.map_values[row][column] == "-":
 		print("Pudlo")
-		P2.map[w][k] = "o"
-		P1.mapp[w][k] = "o"
-		ef=0
+		P2.map_values[row][column] = "o"
+		P1.map_targets[row][column] = "o"
+		effect=0
 	else:
 		print("trafienie")
-		c = P2.map[w][k]
-		P2.hit(c)
-		ef = 1
-		if P2.getHP(c) == 0:
+		target = P2.map_values[row][column]
+		P2.hit(target)
+		effect = 1
+		if P2.getHP(target) == 0:
 			print("Zatopienie")
-			ef = 2
-		P2.map[w][k] = "t"
-		P1.mapp[w][k] = "x"
+			effect = 2
+		P2.map_values[row][column] = "t"
+		P1.map_targets[row][column] = "x"
 
 	os.system("pause")
 	os.system("cls")
 
-	return (str(w)+str(k)+str(ef))
+	return (str(row)+str(column)+str(effect))
 
 def getHit(P1,msg):
 	""" Funkcja obsługująca wartość zwrotną funkcji fire dla strony ostrzeliwanej"""
 	print()
-	w=int(msg[0])
-	k = int(msg[1])
-	ef = int(msg[2])
-	if ef==0:
-		P1.map[w][k]="o"
-		P1.mapu[w][k] = "o"
+	row=int(msg[0])
+	column = int(msg[1])
+	effect = int(msg[2])
+	if effect==0:
+		P1.map_values[row][column]="o"
+		P1.map_user[row][column] = "o"
 	else:
-		P1.hit(P1.map[w][k])
-		P1.map[w][k] = "t"
-		P1.mapu[w][k] = "t"
+		P1.hit(P1.map_values[row][column])
+		P1.map_values[row][column] = "t"
+		P1.map_user[row][column] = "t"
 		print("Statek otrzymal trafienie")
-		if ef==2:
+		if effect==2:
 			print("Stracono okret")
 	print()
 
@@ -251,21 +334,21 @@ def getHit(P1,msg):
 class Player:
 	""" Klasa przechowująca mapy oraz stany okrętów. """
 	def __init__(self):
-		self.map = alloc_map("x")
-		self.mapp = alloc_map(" ")
-		self.mapu = alloc_map(" ")
+		self.map_values = alloc_map("x")
+		self.map_targets = alloc_map(" ")
+		self.map_user = alloc_map(" ")
 		self._ships = {'l':0, 'd':0, 's':0, 'g':0, 'p':0,}
 
 	def setup(self):
-		self._ships['l'] = set_ship(self.map, self.mapu, "l", "Lotniskowiec", 5)
-		self._ships['d'] = set_ship(self.map, self.mapu, "d", "Niszczyciel", 4)
-		self._ships['s'] = set_ship(self.map, self.mapu, "s", "Łódź podwodna", 3)
-		self._ships['g'] = set_ship(self.map, self.mapu, "g", "Kanonierka", 3)
-		self._ships['p'] = set_ship(self.map, self.mapu, "p", "Łódka patrolowa", 2)
+		self._ships['l'] = set_ship(self.map_values, self.map_user, "l", "Lotniskowiec", 5)
+		self._ships['d'] = set_ship(self.map_values, self.map_user, "d", "Niszczyciel", 4)
+		self._ships['s'] = set_ship(self.map_values, self.map_user, "s", "Łódź podwodna", 3)
+		self._ships['g'] = set_ship(self.map_values, self.map_user, "g", "Kanonierka", 3)
+		self._ships['p'] = set_ship(self.map_values, self.map_user, "p", "Łódka patrolowa", 2)
 
 	def setup_test(self):
-		self._ships['p'] = set_ship(self.map, self.mapu, "p", "Łódka patrolowa", 2)
-		self._ships['g'] = set_ship(self.map, self.mapu, "g", "Kanonierka", 3)
+		self._ships['p'] = set_ship(self.map_values, self.map_user, "p", "Łódka patrolowa", 2)
+		self._ships['g'] = set_ship(self.map_values, self.map_user, "g", "Kanonierka", 3)
 
 	def getsHP(self):
 		return self._ships['l']+self._ships['d']+self._ships['s']+self._ships['g']+self._ships['p']
@@ -278,19 +361,19 @@ class Player:
 
 	def output(self):
 		out=""
-		for i in self.map:
+		for i in self.map_values:
 			for j in i:
 				out=out+j
 		return out
 
 	def input(self,inp):
-		self.map = []
+		self.map_values = []
 		id=0
 		for i in range(10):
 			maps = []
-			self.map.append(maps)
+			self.map_values.append(maps)
 			for j in range(10):
 				maps.append(inp[id])
-				if not inp[id]=="x":
+				if not inp[id]=="x" and not inp[id]=="-":
 					self._ships[inp[id]]=self._ships[inp[id]]+1
 				id=id+1
