@@ -1,44 +1,45 @@
 """Moduł obszługujący funkcjonalności związane z rozgrywką"""
 import os
+import string
+
+BOARD_SIZE = 10
+EMPTY_GRID_SYMBOL = 'x'
+MISSED_GRID_SYMBOL = 'o'
+HIT_GRID_SYMBOL = 't'
 
 
-def printmap(map1):
+def print_map(map1):
     """ Funkcja wypisująca jedno okno mapy. """
     print()
     char = chr(92)
     print(char, end="  ")
-    for i in range(10):
-        char = chr(65 + i)
+    for char in string.ascii_lowercase[:BOARD_SIZE]:
         print(char, end=" ")
     print()
-    i = 1
-    for row in map1:
+    for i, row in enumerate(map1, 1):
         print(i, end=" ")
         if i < 10:
             print(end=" ")
-        i = i + 1
         for column in row:
             print(column, end=" ")
         print()
     print()
 
 
-def printmaps(map1, map2):
+def print_maps(map1, map2):
     """ Funkcja wypisująca dwa połączone ze sobą okna map. """
     char = chr(92)
     print(char, end="  ")
-    for i in range(10):
-        char = chr(65 + i)
+    for char in string.ascii_lowercase[:BOARD_SIZE]:
         print(char, end=" ")
     print(" | ", end=" ")
     char = chr(92)
     print(char, end="  ")
-    for i in range(10):
-        char = chr(65 + i)
+    for char in string.ascii_lowercase[:BOARD_SIZE]:
         print(char, end=" ")
     print()
-    i = 1
     for row in range(10):
+        i = row + 1
         print(i, end=" ")
         if i < 10:
             print(end=" ")
@@ -48,7 +49,6 @@ def printmaps(map1, map2):
         print(i, end=" ")
         if i < 10:
             print(end=" ")
-        i = i + 1
         for column in map2[row]:
             print(column, end=" ")
         print()
@@ -57,8 +57,9 @@ def printmaps(map1, map2):
 
 def set_ship(map_values, map_user, symbol, name, lenght):
     """ Funkcja ustawiająca dany statek dla danego gracza. """
+
     os.system("cls")
-    printmap(map_user)
+    print_map(map_user)
     print(name)
     while True:
         while True:
@@ -67,7 +68,7 @@ def set_ship(map_values, map_user, symbol, name, lenght):
                 print("Podaj poprawna wartośc")
                 continue
             try:
-                column = int(ord(incord[0])) - 65
+                column = int(ord(incord[0])) - ord('A')
             except TypeError:
                 print("Podana wartość jest nie poprawna.")
                 continue
@@ -77,53 +78,53 @@ def set_ship(map_values, map_user, symbol, name, lenght):
                     if row == 0 and incord[2] == "0":
                         row = 9
                     else:
-                        row = 10
+                        row = -1
             except ValueError:
                 print("Podana wartość jest nie poprawna.")
                 continue
-            if column > 10:
+            if column > BOARD_SIZE:
                 column = column - 32
-            if column < 0 or column > 9 or row < 0 or row > 9:
+            if not 0 <= column < BOARD_SIZE or not 0 <= row < BOARD_SIZE:
                 print("Podaj poprawne wartości")
                 continue
             else:
                 break
-        if map_values[row][column] == "x":
-            left = 1
-            right = 1
-            upward = 1
-            down = 1
+        if map_values[row][column] == EMPTY_GRID_SYMBOL:
+            left = False
+            right = False
+            upward = False
+            down = False
             if column > lenght - 2:
-                left = 0
-            if column < 11 - lenght:
-                right = 0
+                left = True
+            if column <= BOARD_SIZE - lenght:
+                right = True
             if row > lenght - 2:
-                upward = 0
-            if row < 11 - lenght:
-                down = 0
+                upward = True
+            if row <= BOARD_SIZE - lenght:
+                down = True
 
             for i in range(1, lenght):
-                if left != 0 or map_values[row][column - i] != "x":
-                    left = 1
-                if right != 0 or map_values[row][column + i] != "x":
-                    right = 1
-                if upward != 0 or map_values[row - i][column] != "x":
-                    upward = 1
-                if down != 0 or map_values[row + i][column] != "x":
-                    down = 1
-            if left + right + upward + down == 4:
+                if map_values[row][column - i] != EMPTY_GRID_SYMBOL:
+                    left = False
+                if map_values[row][column + i] != EMPTY_GRID_SYMBOL:
+                    right = False
+                if map_values[row - i][column] != EMPTY_GRID_SYMBOL:
+                    upward = False
+                if map_values[row + i][column] != EMPTY_GRID_SYMBOL:
+                    down = False
+            if left + right + upward + down == 0:
                 print("Brak możliwych ustawień, podaj inne pole")
                 continue
             else:
                 while True:
                     print("Wybierz dostępny kierunek ustawienia")
-                    if left == 0:
+                    if left is True:
                         print("1:Lewo - do ", chr(66 + column - lenght), row + 1)
-                    if right == 0:
+                    if right is True:
                         print("2:Prawo - do ", chr(64 + column + lenght), row + 1)
-                    if upward == 0:
+                    if upward is True:
                         print("3:Góra - do ", chr(65 + column), row - lenght + 2)
-                    if down == 0:
+                    if down is True:
                         print("4:Dół - do ", chr(65 + column), row + lenght)
                     print("5: Wróć do wyboru pola startowego")
 
@@ -138,25 +139,25 @@ def set_ship(map_values, map_user, symbol, name, lenght):
                     if choice == 5:
                         break
                     if choice == 1:
-                        if left == 0:
-                            if column < 9 and row > 0:
+                        if left is True:
+                            if column < BOARD_SIZE - 1 and row > 0:
                                 map_values[row - 1][column + 1] = "-"
-                            if column < 9:
+                            if column < BOARD_SIZE - 1:
                                 map_values[row][column + 1] = "-"
-                            if column < 9 and row < 9:
+                            if column < BOARD_SIZE - 1 and row < BOARD_SIZE - 1:
                                 map_values[row + 1][column + 1] = "-"
                             for i in range(0, lenght):
                                 map_values[row][column - i] = symbol
                                 map_user[row][column - i] = symbol
                                 if row > 0:
                                     map_values[row - 1][column - i] = "-"
-                                if row < 9:
+                                if row < BOARD_SIZE - 1:
                                     map_values[row + 1][column - i] = "-"
                             if column - lenght >= 0 and row > 0:
                                 map_values[row - 1][column - lenght] = "-"
                             if column - lenght >= 0:
                                 map_values[row][column - lenght] = "-"
-                            if column - lenght >= 0 and row < 9:
+                            if column - lenght >= 0 and row < BOARD_SIZE - 1:
                                 map_values[row + 1][column - lenght] = "-"
 
                             break
@@ -165,25 +166,25 @@ def set_ship(map_values, map_user, symbol, name, lenght):
                             print()
                             continue
                     if choice == 2:
-                        if right == 0:
+                        if right is True:
                             if column > 0 and row > 0:
                                 map_values[row - 1][column - 1] = "-"
                             if column > 0:
                                 map_values[row][column - 1] = "-"
-                            if column > 0 and row < 9:
+                            if column > 0 and row < BOARD_SIZE - 1:
                                 map_values[row + 1][column - 1] = "-"
                             for i in range(0, lenght):
                                 map_values[row][column + i] = symbol
                                 map_user[row][column + i] = symbol
                                 if row > 0:
                                     map_values[row - 1][column + i] = "-"
-                                if row < 9:
+                                if row < BOARD_SIZE - 1:
                                     map_values[row + 1][column + i] = "-"
-                            if column + lenght <= 9 and row > 0:
+                            if column + lenght < BOARD_SIZE and row > 0:
                                 map_values[row - 1][column + lenght] = "-"
-                            if column + lenght <= 9:
+                            if column + lenght < BOARD_SIZE:
                                 map_values[row][column + lenght] = "-"
-                            if column + lenght <= 9 and row < 9:
+                            if column + lenght < BOARD_SIZE and row < BOARD_SIZE - 1:
                                 map_values[row + 1][column + lenght] = "-"
                             break
                         else:
@@ -191,21 +192,21 @@ def set_ship(map_values, map_user, symbol, name, lenght):
                             print()
                             continue
                     if choice == 3:
-                        if upward == 0:
-                            if column > 0 and row < 9:
+                        if upward is True:
+                            if column > 0 and row < BOARD_SIZE - 1:
                                 map_values[row + 1][column - 1] = "-"
-                            if row < 9:
+                            if row < BOARD_SIZE - 1:
                                 map_values[row + 1][column] = "-"
-                            if column < 9 and row < 9:
+                            if column < BOARD_SIZE - 1 and row < BOARD_SIZE - 1:
                                 map_values[row + 1][column + 1] = "-"
                             for i in range(0, lenght):
                                 map_values[row - i][column] = symbol
                                 map_user[row - i][column] = symbol
                                 if column > 0:
                                     map_values[row - i][column - 1] = "-"
-                                if column < 9:
+                                if column < BOARD_SIZE - 1:
                                     map_values[row - i][column + 1] = "-"
-                            if column < 9 and row - lenght >= 0:
+                            if column < BOARD_SIZE - 1 and row - lenght >= 0:
                                 map_values[row - lenght][column + 1] = "-"
                             if row - lenght >= 0:
                                 map_values[row - lenght][column] = "-"
@@ -217,25 +218,25 @@ def set_ship(map_values, map_user, symbol, name, lenght):
                             print()
                             continue
                     if choice == 4:
-                        if down == 0:
+                        if down is True:
                             if column > 0 and row > 0:
                                 map_values[row - 1][column - 1] = "-"
                             if row > 0:
                                 map_values[row - 1][column] = "-"
-                            if column < 9 and row > 0:
+                            if column < BOARD_SIZE - 1 and row > 0:
                                 map_values[row - 1][column + 1] = "-"
                             for i in range(0, lenght):
                                 map_values[row + i][column] = symbol
                                 map_user[row + i][column] = symbol
                                 if column > 0:
                                     map_values[row + i][column - 1] = "-"
-                                if column < 9:
+                                if column < BOARD_SIZE - 1:
                                     map_values[row + i][column + 1] = "-"
-                            if column < 9 and row + lenght <= 9:
+                            if column < BOARD_SIZE - 1 and row + lenght < BOARD_SIZE:
                                 map_values[row + lenght][column + 1] = "-"
-                            if row + lenght <= 9:
+                            if row + lenght < BOARD_SIZE:
                                 map_values[row + lenght][column] = "-"
-                            if column > 0 and row + lenght <= 9:
+                            if column > 0 and row + lenght < BOARD_SIZE:
                                 map_values[row + lenght][column - 1] = "-"
                             break
                         else:
@@ -269,7 +270,7 @@ def fire(player1, player2):
     print()
     print("Ostrzal")
     print()
-    printmaps(player1.map_user, player1.map_targets)
+    print_maps(player1.map_user, player1.map_targets)
     while True:
         while True:
             incord = input("Podaj wspolrzedne: ")
@@ -277,7 +278,7 @@ def fire(player1, player2):
                 print("Podaj poprawna wartośc")
                 continue
             try:
-                column = int(ord(incord[0])) - 65
+                column = int(ord(incord[0])) - ord('A')
             except TypeError:
                 print("Podana wartość jest nie poprawna.")
                 continue
@@ -287,38 +288,38 @@ def fire(player1, player2):
                     if row == 0 and incord[2] == "0":
                         row = 9
                     else:
-                        row = 10
+                        row = -1
             except ValueError:
                 print("Podana wartość jest nie poprawna.")
                 continue
             if column > 10:
                 column = column - 32
-            if column < 0 or column > 9 or row < 0 or row > 9:
+            if not 0 <= column < BOARD_SIZE or not 0 <= row < BOARD_SIZE:
                 print("Podaj poprawne wartości")
                 continue
             else:
                 break
-        if player2.map_values[row][column] == "o" or player2.map_values[row][column] == "t":
+        if player2.map_values[row][column] == MISSED_GRID_SYMBOL or player2.map_values[row][column] == HIT_GRID_SYMBOL:
             print("Wspolrzedne juz ostrzelane, wpisz nowe")
             os.system("pause")
         else:
             break
 
-    if player2.map_values[row][column] == "x" or player2.map_values[row][column] == "-":
+    if player2.map_values[row][column] == EMPTY_GRID_SYMBOL or player2.map_values[row][column] == "-":
         print("Pudlo")
-        player2.map_values[row][column] = "o"
-        player1.map_targets[row][column] = "o"
+        player2.map_values[row][column] = MISSED_GRID_SYMBOL
+        player1.map_targets[row][column] = MISSED_GRID_SYMBOL
         effect = 0
     else:
         print("trafienie")
         target = player2.map_values[row][column]
         player2.hit(target)
         effect = 1
-        if player2.get_hp(target) == 0:
+        if player2.get_hull_points(target) == 0:
             print("Zatopienie")
             effect = 2
-        player2.map_values[row][column] = "t"
-        player1.map_targets[row][column] = "x"
+        player2.map_values[row][column] = HIT_GRID_SYMBOL
+        player1.map_targets[row][column] = EMPTY_GRID_SYMBOL
 
     os.system("pause")
     os.system("cls")
@@ -333,12 +334,12 @@ def get_hit(player, msg):
     column = int(msg[1])
     effect = int(msg[2])
     if effect == 0:
-        player.map_values[row][column] = "o"
-        player.map_user[row][column] = "o"
+        player.map_values[row][column] = MISSED_GRID_SYMBOL
+        player.map_user[row][column] = MISSED_GRID_SYMBOL
     else:
         player.hit(player.map_values[row][column])
-        player.map_values[row][column] = "t"
-        player.map_user[row][column] = "t"
+        player.map_values[row][column] = HIT_GRID_SYMBOL
+        player.map_user[row][column] = HIT_GRID_SYMBOL
         print("Statek otrzymal trafienie")
         if effect == 2:
             print("Stracono okret")
@@ -350,7 +351,7 @@ class Player:
 
     def __init__(self):
         """Funkcja inicjalizująca obiekt gracza"""
-        self.map_values = alloc_map("x")
+        self.map_values = alloc_map(EMPTY_GRID_SYMBOL)
         self.map_targets = alloc_map(" ")
         self.map_user = alloc_map(" ")
         self._ships = {'l': 0, 'd': 0, 's': 0, 'g': 0, 'p': 0, }
@@ -363,13 +364,13 @@ class Player:
         self._ships['g'] = set_ship(self.map_values, self.map_user, "g", "Kanonierka", 3)
         self._ships['p'] = set_ship(self.map_values, self.map_user, "p", "Łódka patrolowa", 2)
 
-    def get_shp(self):
+    def get_hull_points(self, char):
+        """Funkcja zwracająca wartość wytrzymałości okrętu ( Hull point - punkty wytrzymałości kadłuba okrętu)"""
+        return self._ships[char]
+
+    def get_sum_hull_points(self):
         """Funkcja zwracająca sumę wartości wytrzymałości okrętów gracza"""
         return self._ships['l'] + self._ships['d'] + self._ships['s'] + self._ships['g'] + self._ships['p']
-
-    def get_hp(self, char):
-        """Funkcja zwracająca wartość wytrzymałości okrętu"""
-        return self._ships[char]
 
     def hit(self, char):
         """Funkcja zmniejszająca wartość wytrzymałości okrętu"""
@@ -392,6 +393,6 @@ class Player:
             self.map_values.append(maps)
             for j in range(10):
                 maps.append(inp[index])
-                if not inp[index] == "x" and not inp[index] == "-":
+                if not inp[index] == EMPTY_GRID_SYMBOL and not inp[index] == "-":
                     self._ships[inp[index]] = self._ships[inp[index]] + 1
                 index = index + 1
