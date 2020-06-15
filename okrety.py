@@ -1,6 +1,83 @@
 """Plik główny programu"""
 import os
-from Modules import Networking, ShipElements
+from Modules import networking, ship_elements
+
+
+def servermode():
+    """Funkcja obsługująca rozgrywkę jako server"""
+    server = networking.setserver()
+    networking.server_confirm(server)
+    player1 = ship_elements.Player()
+    player2 = ship_elements.Player()
+
+    conn = server.accept()
+    print("Rozstawienie gracza")
+    os.system("pause")
+    os.system("cls")
+    player1.setup()
+    networking.server_release(conn[0], player1.output())
+    os.system("cls")
+    ship_elements.printmap(player1.map_user)
+    reply = networking.server_hold(server, "Oczekiwanie na rozstawienie klienta")
+    player2.input(reply)
+
+    while True:
+        conn = server.accept()
+        cor = ship_elements.fire(player1, player2)
+        networking.server_release(conn[0], cor)
+        if player2.get_shp() == 0:
+            ship_elements.printmaps(player1.map_user, player1.map_targets)
+            print()
+            return 1
+        ship_elements.printmaps(player1.map_user, player1.map_targets)
+        reply = networking.server_hold(server, "Tura klienta")
+        ship_elements.get_hit(player1, reply)
+        if player1.get_shp() == 0:
+            ship_elements.printmaps(player1.map_user, player1.map_targets)
+            print()
+            return 2
+
+
+def clientmode():
+    """Funkcja obsługująca rozgrywkę jako klient"""
+    host_adress = input("Podaj adress hosta: ")
+    timeout = 0
+    while True:
+        server = networking.connect(host_adress)
+        timeout += 1
+        if server is not None or timeout == 15:
+            break
+    networking.client_confirm(server)
+    player1 = ship_elements.Player()
+    player2 = ship_elements.Player()
+
+    server = networking.connect(host_adress)
+    reply = networking.client_hold(server, "Oczekiwanie na rozstawienie hosta")
+    player2.input(reply)
+    print("Rozstawienie gracza")
+    os.system("pause")
+    os.system("cls")
+    player1.setup()
+    server = networking.connect(host_adress)
+    networking.client_release(server, player1.output())
+
+    while True:
+        ship_elements.printmaps(player1.map_user, player1.map_targets)
+        server = networking.connect(host_adress)
+        reply = networking.client_hold(server, "Tura hosta")
+        ship_elements.get_hit(player1, reply)
+        if player1.get_shp() == 0:
+            ship_elements.printmaps(player1.map_user, player1.map_targets)
+            print()
+            return 2
+        cor = ship_elements.fire(player1, player2)
+        server = networking.connect(host_adress)
+        networking.client_release(server, cor)
+        if player2.get_shp() == 0:
+            ship_elements.printmaps(player1.map_user, player1.map_targets)
+            print()
+            return 1
+
 
 def main():
     """Funkcja główna programu"""
@@ -11,74 +88,10 @@ def main():
     mode = int(input())
 
     if mode == 1:
-        server = Networking.setserver()
-        Networking.server_confirm(server)
-        player1 = ShipElements.Player()
-        player2 = ShipElements.Player()
-
-        conn = server.accept()
-        print("Rozstawienie gracza")
-        os.system("pause")
-        os.system("cls")
-        player1.setup()
-        Networking.server_release(conn, player1.output())
-        os.system("cls")
-        ShipElements.printmap(player1.map_user)
-        reply = Networking.server_hold(server, "Oczekiwanie na rozstawienie klienta")
-        player2.input(reply)
-
-        while True:
-            conn = server.accept()
-            cor = ShipElements.fire(player1, player2)
-            Networking.server_release(conn, cor)
-            if player2.getsHP() == 0:
-                win = 1
-                break
-            ShipElements.printmaps(player1.map_user, player1.map_targets)
-            reply = Networking.server_hold(server, "Tura klienta")
-            ShipElements.getHit(player1, reply)
-            if player1.getsHP() == 0:
-                win = 2
-                break
+        win = servermode()
     else:
-        host_adress = input("Podaj adress hosta: ")
-        timeout = 0
-        while True:
-            server = Networking.connect(host_adress)
-            timeout += 1
-            if server is not None or timeout == 15:
-                break
-        Networking.client_confirm(server)
-        player1 = ShipElements.Player()
-        player2 = ShipElements.Player()
+        win = clientmode()
 
-        server = Networking.connect(host_adress)
-        reply = Networking.client_hold(server, "Oczekiwanie na rozstawienie hosta")
-        player2.input(reply)
-        print("Rozstawienie gracza")
-        os.system("pause")
-        os.system("cls")
-        player1.setup()
-        server = Networking.connect(host_adress)
-        Networking.client_release(server, player1.output())
-
-        while True:
-            ShipElements.printmaps(player1.map_user, player1.map_targets)
-            server = Networking.connect(host_adress)
-            reply = Networking.client_hold(server, "Tura hosta")
-            ShipElements.getHit(player1, reply)
-            if player1.getsHP() == 0:
-                win = 2
-                break
-            cor = ShipElements.fire(player1, player2)
-            server = Networking.connect(host_adress)
-            Networking.client_release(server, cor)
-            if player2.getsHP() == 0:
-                win = 1
-                break
-
-    ShipElements.printmaps(player1.map_user, player1.map_targets)
-    print()
     if win == 1:
         print("Wygrana")
     else:
