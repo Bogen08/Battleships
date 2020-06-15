@@ -2,7 +2,7 @@
 import sys
 import socket
 import os
-
+BUFF_SIZE = 1024
 
 def setserver():
     """ Tworzy socet do obsługi serwera. """
@@ -10,8 +10,7 @@ def setserver():
     port = 50007  # Arbitrary non-privileged port
     sock = None
     for res in socket.getaddrinfo(host, port, socket.AF_INET, socket.SOCK_STREAM):
-        af, socktype, proto, canonname, sa = res
-        del canonname
+        af, socktype, proto, _, sa = res
         try:
             sock = socket.socket(af, socktype, proto)
         except OSError:
@@ -37,8 +36,7 @@ def connect(host):
     port = 50007  # The same port as used by the server
     sock = None
     for res in socket.getaddrinfo(host, port, socket.AF_INET, socket.SOCK_STREAM):
-        af, socktype, proto, canonname, sa = res
-        del canonname
+        af, socktype, proto, _, sa = res
         try:
             sock = socket.socket(af, socktype, proto)
         except OSError:
@@ -65,7 +63,7 @@ def server_confirm(sock):
     with conn[0]:
         print('Połączono z:', conn[1])
         while True:
-            data = conn[0].recv(1024)
+            data = conn[0].recv(BUFF_SIZE)
             if not data:
                 break
             message = data.decode("utf-8")
@@ -81,7 +79,7 @@ def server_hold(sock, message):
     conn = sock.accept()
     with conn[0]:
         while True:
-            data = conn[0].recv(1024)
+            data = conn[0].recv(BUFF_SIZE)
             if not data:
                 break
             message = data.decode("utf-8")
@@ -93,7 +91,7 @@ def server_release(conn, reply):
     """ Funkcja wysyłająca sygnał gotowości do klienta w celu zwolnienia blokady. """
     with conn:
         while True:
-            data = conn.recv(1024)
+            data = conn.recv(BUFF_SIZE)
             message = data.decode("utf-8")
             if message == "Ready":
                 conn.send(reply.encode("utf-8"))
@@ -106,7 +104,7 @@ def client_confirm(sock):
         os.system("cls")
         message = "Ready"
         sock.sendall(str(message).encode("utf-8"))
-        data = sock.recv(1024)
+        data = sock.recv(BUFF_SIZE)
         reply = data.decode("utf-8")
     if reply == "Confirm":
         print("Sukces w połączeniu z serwerem")
@@ -124,7 +122,7 @@ def client_hold(sock, message):
     with sock:
         message = "Ready"
         sock.sendall(str(message).encode("utf-8"))
-        data = sock.recv(1024)
+        data = sock.recv(BUFF_SIZE)
         os.system("cls")
         reply = data.decode("utf-8")
     sock.close()
