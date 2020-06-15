@@ -19,7 +19,7 @@ class PlayerTest(unittest.TestCase):
         self.assertEqual(self.player1.output(), test_input)
 
     def test_hit(self):
-        """Funkcja testująca rakcje planszy gracza na trafienie"""
+        """Funkcja testująca reakcje planszy gracza na trafienie"""
         test_in = "lllll-xxxx------xxxxdddd-xxxxx-----xxxxxsss-" \
                   "xxxxxx----xxxxxxggg-xxxxxx----xxxxxxp-xxxxxxxxp-xxxxxxxx"
         self.player1.input(test_in)
@@ -29,7 +29,7 @@ class PlayerTest(unittest.TestCase):
         self.assertEqual(self.player1.output(), test_input_hit)
 
     def test_miss(self):
-        """Funkcja testująca rakcje planszy gracza na spudłowanie"""
+        """Funkcja testująca reakcje planszy gracza na spudłowanie"""
         test_in = "lllll-xxxx------xxxxdddd-xxxxx-----xxxxxsss-" \
                   "xxxxxx----xxxxxxggg-xxxxxx----xxxxxxp-xxxxxxxxp-xxxxxxxx"
         self.player1.input(test_in)
