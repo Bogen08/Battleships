@@ -36,16 +36,16 @@ def print_maps(map1, map2):
     for char in string.ascii_lowercase[:BOARD_SIZE]:
         print(char, end=" ")
     print()
-    for row in range(10):
+    for row in range(BOARD_SIZE):
         i = row + 1
         print(i, end=" ")
-        if i < 10:
+        if i < BOARD_SIZE:
             print(end=" ")
         for column in map1[row]:
             print(column, end=" ")
         print(" | ", end=" ")
         print(i, end=" ")
-        if i < 10:
+        if i < BOARD_SIZE:
             print(end=" ")
         for column in map2[row]:
             print(column, end=" ")
@@ -254,10 +254,10 @@ def set_ship(map_values, map_user, symbol, name, lenght):
 def alloc_map(char):
     """ Funkcja alokująca pamięć i domyślne wartości dla tablic map. """
     map_a = []
-    for i in range(10):
+    for i in range(BOARD_SIZE):
         maps = []
         map_a.append(maps)
-        for j in range(10):
+        for j in range(BOARD_SIZE):
             maps.append(char)
     return map_a
 
@@ -290,7 +290,7 @@ def fire(player1, player2):
             except ValueError:
                 print("Podana wartość jest nie poprawna.")
                 continue
-            if column > 10:
+            if column > BOARD_SIZE:
                 column = column - 32
             if not 0 <= column < BOARD_SIZE or not 0 <= row < BOARD_SIZE:
                 print("Podaj poprawne wartości")
@@ -386,10 +386,10 @@ class Player:
         """Funkcja pobierająca string z gotowym rozstawieniem planszy"""
         self.map_values = []
         index = 0
-        for i in range(10):
+        for i in range(BOARD_SIZE):
             maps = []
             self.map_values.append(maps)
-            for j in range(10):
+            for j in range(BOARD_SIZE):
                 maps.append(inp[index])
                 if not inp[index] == EMPTY_GRID_SYMBOL and not inp[index] == SPACING_SYMBOL:
                     self._ships[inp[index]] = self._ships[inp[index]] + 1
