@@ -1,6 +1,7 @@
 """Plik główny programu"""
 import os
-from Modules import networking, ship_elements
+from Modules import networking
+from Modules import ship_elements
 
 
 def servermode():
