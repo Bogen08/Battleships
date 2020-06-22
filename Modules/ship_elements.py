@@ -6,19 +6,19 @@ BOARD_SIZE = 10
 EMPTY_GRID_SYMBOL = 'x'
 MISSED_GRID_SYMBOL = 'o'
 HIT_GRID_SYMBOL = 't'
+SPACING_SYMBOL = '-'
 
 
 def print_map(map1):
     """ Funkcja wypisująca jedno okno mapy. """
     print()
-    char = chr(92)
-    print(char, end="  ")
+    print('\\', end="  ")
     for char in string.ascii_lowercase[:BOARD_SIZE]:
         print(char, end=" ")
     print()
     for i, row in enumerate(map1, 1):
         print(i, end=" ")
-        if i < 10:
+        if i < BOARD_SIZE:
             print(end=" ")
         for column in row:
             print(column, end=" ")
@@ -28,13 +28,11 @@ def print_map(map1):
 
 def print_maps(map1, map2):
     """ Funkcja wypisująca dwa połączone ze sobą okna map. """
-    char = chr(92)
-    print(char, end="  ")
+    print('\\', end="  ")
     for char in string.ascii_lowercase[:BOARD_SIZE]:
         print(char, end=" ")
     print(" | ", end=" ")
-    char = chr(92)
-    print(char, end="  ")
+    print('\\', end="  ")
     for char in string.ascii_lowercase[:BOARD_SIZE]:
         print(char, end=" ")
     print()
@@ -141,24 +139,24 @@ def set_ship(map_values, map_user, symbol, name, lenght):
                     if choice == 1:
                         if left is True:
                             if column < BOARD_SIZE - 1 and row > 0:
-                                map_values[row - 1][column + 1] = "-"
+                                map_values[row - 1][column + 1] = SPACING_SYMBOL
                             if column < BOARD_SIZE - 1:
-                                map_values[row][column + 1] = "-"
+                                map_values[row][column + 1] = SPACING_SYMBOL
                             if column < BOARD_SIZE - 1 and row < BOARD_SIZE - 1:
-                                map_values[row + 1][column + 1] = "-"
+                                map_values[row + 1][column + 1] = SPACING_SYMBOL
                             for i in range(0, lenght):
                                 map_values[row][column - i] = symbol
                                 map_user[row][column - i] = symbol
                                 if row > 0:
-                                    map_values[row - 1][column - i] = "-"
+                                    map_values[row - 1][column - i] = SPACING_SYMBOL
                                 if row < BOARD_SIZE - 1:
-                                    map_values[row + 1][column - i] = "-"
+                                    map_values[row + 1][column - i] = SPACING_SYMBOL
                             if column - lenght >= 0 and row > 0:
-                                map_values[row - 1][column - lenght] = "-"
+                                map_values[row - 1][column - lenght] = SPACING_SYMBOL
                             if column - lenght >= 0:
-                                map_values[row][column - lenght] = "-"
+                                map_values[row][column - lenght] = SPACING_SYMBOL
                             if column - lenght >= 0 and row < BOARD_SIZE - 1:
-                                map_values[row + 1][column - lenght] = "-"
+                                map_values[row + 1][column - lenght] = SPACING_SYMBOL
 
                             break
                         else:
@@ -168,24 +166,24 @@ def set_ship(map_values, map_user, symbol, name, lenght):
                     if choice == 2:
                         if right is True:
                             if column > 0 and row > 0:
-                                map_values[row - 1][column - 1] = "-"
+                                map_values[row - 1][column - 1] = SPACING_SYMBOL
                             if column > 0:
-                                map_values[row][column - 1] = "-"
+                                map_values[row][column - 1] = SPACING_SYMBOL
                             if column > 0 and row < BOARD_SIZE - 1:
-                                map_values[row + 1][column - 1] = "-"
+                                map_values[row + 1][column - 1] = SPACING_SYMBOL
                             for i in range(0, lenght):
                                 map_values[row][column + i] = symbol
                                 map_user[row][column + i] = symbol
                                 if row > 0:
-                                    map_values[row - 1][column + i] = "-"
+                                    map_values[row - 1][column + i] = SPACING_SYMBOL
                                 if row < BOARD_SIZE - 1:
-                                    map_values[row + 1][column + i] = "-"
+                                    map_values[row + 1][column + i] = SPACING_SYMBOL
                             if column + lenght < BOARD_SIZE and row > 0:
-                                map_values[row - 1][column + lenght] = "-"
+                                map_values[row - 1][column + lenght] = SPACING_SYMBOL
                             if column + lenght < BOARD_SIZE:
-                                map_values[row][column + lenght] = "-"
+                                map_values[row][column + lenght] = SPACING_SYMBOL
                             if column + lenght < BOARD_SIZE and row < BOARD_SIZE - 1:
-                                map_values[row + 1][column + lenght] = "-"
+                                map_values[row + 1][column + lenght] = SPACING_SYMBOL
                             break
                         else:
                             print("Kierunek niedostepny, wybierz inny")
@@ -194,24 +192,24 @@ def set_ship(map_values, map_user, symbol, name, lenght):
                     if choice == 3:
                         if upward is True:
                             if column > 0 and row < BOARD_SIZE - 1:
-                                map_values[row + 1][column - 1] = "-"
+                                map_values[row + 1][column - 1] = SPACING_SYMBOL
                             if row < BOARD_SIZE - 1:
-                                map_values[row + 1][column] = "-"
+                                map_values[row + 1][column] = SPACING_SYMBOL
                             if column < BOARD_SIZE - 1 and row < BOARD_SIZE - 1:
-                                map_values[row + 1][column + 1] = "-"
+                                map_values[row + 1][column + 1] = SPACING_SYMBOL
                             for i in range(0, lenght):
                                 map_values[row - i][column] = symbol
                                 map_user[row - i][column] = symbol
                                 if column > 0:
-                                    map_values[row - i][column - 1] = "-"
+                                    map_values[row - i][column - 1] = SPACING_SYMBOL
                                 if column < BOARD_SIZE - 1:
-                                    map_values[row - i][column + 1] = "-"
+                                    map_values[row - i][column + 1] = SPACING_SYMBOL
                             if column < BOARD_SIZE - 1 and row - lenght >= 0:
-                                map_values[row - lenght][column + 1] = "-"
+                                map_values[row - lenght][column + 1] = SPACING_SYMBOL
                             if row - lenght >= 0:
-                                map_values[row - lenght][column] = "-"
+                                map_values[row - lenght][column] = SPACING_SYMBOL
                             if column > 0 and row - lenght >= 0:
-                                map_values[row - lenght][column - 1] = "-"
+                                map_values[row - lenght][column - 1] = SPACING_SYMBOL
                             break
                         else:
                             print("Kierunek niedostepny, wybierz inny")
@@ -220,24 +218,24 @@ def set_ship(map_values, map_user, symbol, name, lenght):
                     if choice == 4:
                         if down is True:
                             if column > 0 and row > 0:
-                                map_values[row - 1][column - 1] = "-"
+                                map_values[row - 1][column - 1] = SPACING_SYMBOL
                             if row > 0:
-                                map_values[row - 1][column] = "-"
+                                map_values[row - 1][column] = SPACING_SYMBOL
                             if column < BOARD_SIZE - 1 and row > 0:
-                                map_values[row - 1][column + 1] = "-"
+                                map_values[row - 1][column + 1] = SPACING_SYMBOL
                             for i in range(0, lenght):
                                 map_values[row + i][column] = symbol
                                 map_user[row + i][column] = symbol
                                 if column > 0:
-                                    map_values[row + i][column - 1] = "-"
+                                    map_values[row + i][column - 1] = SPACING_SYMBOL
                                 if column < BOARD_SIZE - 1:
-                                    map_values[row + i][column + 1] = "-"
+                                    map_values[row + i][column + 1] = SPACING_SYMBOL
                             if column < BOARD_SIZE - 1 and row + lenght < BOARD_SIZE:
-                                map_values[row + lenght][column + 1] = "-"
+                                map_values[row + lenght][column + 1] = SPACING_SYMBOL
                             if row + lenght < BOARD_SIZE:
-                                map_values[row + lenght][column] = "-"
+                                map_values[row + lenght][column] = SPACING_SYMBOL
                             if column > 0 and row + lenght < BOARD_SIZE:
-                                map_values[row + lenght][column - 1] = "-"
+                                map_values[row + lenght][column - 1] = SPACING_SYMBOL
                             break
                         else:
                             print("Kierunek niedostepny, wybierz inny")
@@ -305,7 +303,7 @@ def fire(player1, player2):
         else:
             break
 
-    if player2.map_values[row][column] == EMPTY_GRID_SYMBOL or player2.map_values[row][column] == "-":
+    if player2.map_values[row][column] == EMPTY_GRID_SYMBOL or player2.map_values[row][column] == SPACING_SYMBOL:
         print("Pudlo")
         player2.map_values[row][column] = MISSED_GRID_SYMBOL
         player1.map_targets[row][column] = MISSED_GRID_SYMBOL
@@ -393,6 +391,6 @@ class Player:
             self.map_values.append(maps)
             for j in range(10):
                 maps.append(inp[index])
-                if not inp[index] == EMPTY_GRID_SYMBOL and not inp[index] == "-":
+                if not inp[index] == EMPTY_GRID_SYMBOL and not inp[index] == SPACING_SYMBOL:
                     self._ships[inp[index]] = self._ships[inp[index]] + 1
                 index = index + 1
