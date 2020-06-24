@@ -59,21 +59,21 @@ def print_maps(map1, map2):
 
 
 def set_grids(map_values, map_user, column, row, direction, length, symbol):
-    if direction == 'left':
+    if direction == CHOICE_LEFT:
         if column < BOARD_SIZE - 1 and row > 0:
             map_values[row - 1][column + 1] = SPACING_SYMBOL
         if column < BOARD_SIZE - 1:
             map_values[row][column + 1] = SPACING_SYMBOL
         if column < BOARD_SIZE - 1 and row < BOARD_SIZE - 1:
             map_values[row + 1][column + 1] = SPACING_SYMBOL
-    elif direction == 'right':
+    elif direction == CHOICE_RIGHT:
         if column > 0 and row > 0:
             map_values[row - 1][column - 1] = SPACING_SYMBOL
         if column > 0:
             map_values[row][column - 1] = SPACING_SYMBOL
         if column > 0 and row < BOARD_SIZE - 1:
             map_values[row + 1][column - 1] = SPACING_SYMBOL
-    elif direction == 'up':
+    elif direction == CHOICE_UP:
         if column > 0 and row < BOARD_SIZE - 1:
             map_values[row + 1][column - 1] = SPACING_SYMBOL
         if row < BOARD_SIZE - 1:
@@ -88,21 +88,21 @@ def set_grids(map_values, map_user, column, row, direction, length, symbol):
         if column < BOARD_SIZE - 1 and row > 0:
             map_values[row - 1][column + 1] = SPACING_SYMBOL
     for i in range(0, length):
-        if direction == 'left':
+        if direction == CHOICE_LEFT:
             map_values[row][column - i] = symbol
             map_user[row][column - i] = symbol
             if row > 0:
                 map_values[row - 1][column - i] = SPACING_SYMBOL
             if row < BOARD_SIZE - 1:
                 map_values[row + 1][column - i] = SPACING_SYMBOL
-        elif direction == 'right':
+        elif direction == CHOICE_RIGHT:
             map_values[row][column + i] = symbol
             map_user[row][column + i] = symbol
             if row > 0:
                 map_values[row - 1][column + i] = SPACING_SYMBOL
             if row < BOARD_SIZE - 1:
                 map_values[row + 1][column + i] = SPACING_SYMBOL
-        elif direction == 'up':
+        elif direction == CHOICE_UP:
             map_values[row - i][column] = symbol
             map_user[row - i][column] = symbol
             if column > 0:
@@ -117,21 +117,21 @@ def set_grids(map_values, map_user, column, row, direction, length, symbol):
             if column < BOARD_SIZE - 1:
                 map_values[row + i][column + 1] = SPACING_SYMBOL
 
-    if direction == 'left':
+    if direction == CHOICE_LEFT:
         if column - length >= 0 and row > 0:
             map_values[row - 1][column - length] = SPACING_SYMBOL
         if column - length >= 0:
             map_values[row][column - length] = SPACING_SYMBOL
         if column - length >= 0 and row < BOARD_SIZE - 1:
             map_values[row + 1][column - length] = SPACING_SYMBOL
-    elif direction == 'right':
+    elif direction == CHOICE_RIGHT:
         if column + length < BOARD_SIZE and row > 0:
             map_values[row - 1][column + length] = SPACING_SYMBOL
         if column + length < BOARD_SIZE:
             map_values[row][column + length] = SPACING_SYMBOL
         if column + length < BOARD_SIZE and row < BOARD_SIZE - 1:
             map_values[row + 1][column + length] = SPACING_SYMBOL
-    elif direction == 'up':
+    elif direction == CHOICE_UP:
         if column < BOARD_SIZE - 1 and row - length >= 0:
             map_values[row - length][column + 1] = SPACING_SYMBOL
         if row - length >= 0:
@@ -232,7 +232,7 @@ def set_ship(map_values, map_user, symbol, name, length):
                         break
                     if choice == CHOICE_LEFT:
                         if left:
-                            set_grids(map_values, map_user, column, row, "left", length, symbol)
+                            set_grids(map_values, map_user, column, row, CHOICE_LEFT, length, symbol)
                             break
                         else:
                             print("Kierunek niedostepny, wybierz inny")
@@ -240,7 +240,7 @@ def set_ship(map_values, map_user, symbol, name, length):
                             continue
                     if choice == CHOICE_RIGHT:
                         if right:
-                            set_grids(map_values, map_user, column, row, "right", length, symbol)
+                            set_grids(map_values, map_user, column, row, CHOICE_RIGHT, length, symbol)
                             break
                         else:
                             print("Kierunek niedostepny, wybierz inny")
@@ -248,7 +248,7 @@ def set_ship(map_values, map_user, symbol, name, length):
                             continue
                     if choice == CHOICE_UP:
                         if upward:
-                            set_grids(map_values, map_user, column, row, "up", length, symbol)
+                            set_grids(map_values, map_user, column, row, CHOICE_UP, length, symbol)
                             break
                         else:
                             print("Kierunek niedostepny, wybierz inny")
@@ -256,7 +256,7 @@ def set_ship(map_values, map_user, symbol, name, length):
                             continue
                     if choice == CHOICE_DOWN:
                         if down:
-                            set_grids(map_values, map_user, column, row, "down", length, symbol)
+                            set_grids(map_values, map_user, column, row, CHOICE_DOWN, length, symbol)
                             break
                         else:
                             print("Kierunek niedostepny, wybierz inny")
