@@ -7,7 +7,7 @@ EMPTY_GRID_SYMBOL = 'x'
 MISSED_GRID_SYMBOL = 'o'
 HIT_GRID_SYMBOL = 't'
 SPACING_SYMBOL = '-'
-CHOICE_LEFT, CHOICE_RIGHT, CHOICE_UP, CHOICE_DOWN, CHOICE_BACK = range(5)
+CHOICE_LEFT, CHOICE_RIGHT, CHOICE_UP, CHOICE_DOWN, CHOICE_BACK = range(1, 6)
 
 
 def print_map(map1):
@@ -194,12 +194,14 @@ def set_ship(map_values, map_user, symbol, name, length):
             for i in range(1, length):
                 if map_values[row][column - i] != EMPTY_GRID_SYMBOL:
                     left = False
-                if map_values[row][column + i] != EMPTY_GRID_SYMBOL:
-                    right = False
+                if column + i < BOARD_SIZE:
+                    if map_values[row][column + i] != EMPTY_GRID_SYMBOL:
+                        right = False
                 if map_values[row - i][column] != EMPTY_GRID_SYMBOL:
                     upward = False
-                if map_values[row + i][column] != EMPTY_GRID_SYMBOL:
-                    down = False
+                if row + i < BOARD_SIZE:
+                    if map_values[row + i][column] != EMPTY_GRID_SYMBOL:
+                        down = False
             if left + right + upward + down == 0:
                 print("Brak możliwych ustawień, podaj inne pole")
                 continue
